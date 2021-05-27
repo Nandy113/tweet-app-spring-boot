@@ -1,0 +1,35 @@
+<nav class="navbar navbar-dark bg-info navbar-expand-lg">
+    <div class="container-fluid mr-autot">
+        <a class="navbar-brand" href="#">
+            <img src="https://upload.wikimedia.org/wikipedia/en/6/60/Twitter_Logo_as_of_2021.svg" alt="" width="30"
+                height="24" class="d-inline-block align-text-top" />
+            TweetBook
+        </a>
+        <button class="navbar-toggler mr-auto" data-toggle="collapse" data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggleExternalContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="my-tweets" *ngIf="isLoggedIn()">My Tweets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" routerLink="view-tweets" *ngIf="isLoggedIn()">Tweet Feed</a>
+                </li>
+                <li class="nav-">
+                    <a class="nav-link active" *ngIf="!isLoggedIn()" [routerLink]="['users/login']">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" *ngIf="!isLoggedIn()" [routerLink]="['users/signup']">Signup</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" *ngIf="isLoggedIn()" href="#" (onClick)="logout()">Logout</a>
+                </li>
+                <li class="nav-items">
+                  
+                        <a class=" Button-link btn btn-primary" *ngIf="isLoggedIn()"><i class="material-icons">person</i>&nbsp;{{getCurrentUser()}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

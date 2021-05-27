@@ -1,0 +1,37 @@
+<div *ngIf="tweets.length==0" style = "margin:20px;">No Tweets to Show!!!</div>
+<div *ngIf="isLoggedIn()" style = "margin:20px;">
+  <button class="btn btn-primary" *ngIf="!post" (click)="postMessage(true)">New Button</button>
+  <button class="btn btn-primary" *ngIf="post" (click)="postMessage(false)">Post</button>
+  <textarea name="insertTweet" [(ngModel)]="insertTweet" *ngIf="post" id="tweetmessage" rows="5" cols="30"></textarea>
+</div>
+<div class="row mt-5" *ngIf="isLoggedIn()">
+  <div *ngFor="let tweet of tweets" class="col-lg-4 mt-1 mr-5 col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title text-primary">@{{tweet.postedBy}}</h5>
+        <p class="card-text">{{tweet.message}}</p>
+        <p class="card-text text-muted">{{tweet.postedAt | date: 'dd/MM/yyyy hh:mm:ss a' }}</p>
+        <button *ngIf="isLoggedIn() && getCurrentUser()==tweet.postedBy" (click)="deleteTweet(tweet.id)" style="margin:5px;" class=" Button-link btn btn-info">Delete</button>
+        <button *ngIf="isLoggedIn() && getCurrentUser()==tweet.postedBy && !update" (click)="postUpdate(true,tweet.id)"
+        style="margin:5px;" class=" Button-link btn btn-info">Update</button>
+        <textarea name="updateTweet" [(ngModel)]="updateTweet" *ngIf="update && id==tweet.id" id="updatemessage"
+          rows="5" cols="30"></textarea>
+        <button style="margin:5px;" class=" Button-link btn btn-info" *ngIf="update && id==tweet.id"
+          (click)="postUpdate(false,tweet.id)">Post</button>
+        <button *ngIf="isLoggedIn() && !reply" (click)="postReply(true, tweet.id)" style="margin:5px;" class=" Button-link btn btn-info">Reply</button>
+        <textarea name="replyMessage" [(ngModel)]="replyMessage" *ngIf="reply && id==tweet.id" id="replymessage"
+          rows="5" cols="30"></textarea>
+        <button style="margin:5px;" class=" Button-link btn btn-info" *ngIf="reply && id==tweet.id" (click)="postReply(false,tweet.id)">Post</button>
+        <button *ngIf="tweet.replies.length!=0 && replyId!==tweet.id" style="margin:5px;" class=" Button-link btn btn-info"
+          (click)="viewReplies(true,tweet.id)">View
+          Replies</button>
+        <button *ngIf="tweet.replies.length!=0 && viewReply && replyId==tweet.id" style="margin:5px;" class=" Button-link btn btn-info"
+          (click)="viewReplies(false)">Close
+          Replies</button>
+        <div *ngIf="viewReply && replyId==tweet.id" style="margin-top:15px;">
+          <app-view-replies *ngFor="let reply of tweet.replies" [reply]="reply"></app-view-replies>
+        </div>
+        <button *ngIf="tweet.replies.length==0" style="margin:5px;" class=" Button-link btn btn-info">No replies yet</button>
+        <div>
+        </div>
+      </div>
